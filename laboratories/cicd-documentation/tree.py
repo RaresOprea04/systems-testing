@@ -1,6 +1,5 @@
 from node import Node
 
-
 class Tree:
     """ Tree class for binary tree """
 
@@ -24,6 +23,7 @@ class Tree:
 
         Args:
             data (int): data to add
+            node (Node): current node in the traversal
 
         Returns:
             None
@@ -46,7 +46,7 @@ class Tree:
             data (int): data to find
 
         Returns:
-            Node: node with data
+            Node: node with data or None
         """
         if self.root is not None:
             return self._find(data, self.root)
@@ -54,32 +54,62 @@ class Tree:
             return None
 
     def _find(self, data, node):
+        """Recursive method to find data in the tree
+
+        Args:
+            data (int): data to find
+            node (Node): current node being checked
+
+        Returns:
+            Node: node with data or None
+        """
         if data == node.data:
             return node
         elif (data < node.data and node.left is not None):
             return self._find(data, node.left)
         elif (data > node.data and node.right is not None):
             return self._find(data, node.right)
+        return None # In caz ca nu gaseste nimic
 
     def deleteTree(self):
+        """Method to clear the tree by removing the root reference"""
         self.root = None
 
     def printTree(self):
+        """Method to print the tree in inorder traversal"""
         if self.root is not None:
             self._printInorderTree(self.root)
+            print() # Linie noua dupa printare
 
     def _printInorderTree(self, node):
+        """Recursive method to print the tree inorder (Left, Root, Right)
+
+        Args:
+            node (Node): current node to print
+        """
         if node is not None:
             self._printInorderTree(node.left)
-            print(str(node.data) + ' ')
+            print(str(node.data) + ' ', end='')
             self._printInorderTree(node.right)
 
     def _printPreorderTree(self, node):
-        # TODO
-        pass
+        """Recursive method to print the tree preorder (Root, Left, Right)
+
+        Args:
+            node (Node): current node to print
+        """
+        if node is not None:
+            print(str(node.data) + ' ', end='')
+            self._printPreorderTree(node.left)
+            self._printPreorderTree(node.right)
 
     def _printPostorderTree(self, node):
-        # TODO
-        pass
+        """Recursive method to print the tree postorder (Left, Right, Root)
 
-
+        Args:
+            node (Node): current node to print
+        """
+        if node is not None:
+            self._printPostorderTree(node.left)
+            self._printPostorderTree(node.right)
+            print(str(node.data) + ' ', end='')
